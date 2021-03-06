@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset=" UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID 19 API in Javascript</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class= "container">
+        <h1 class= "text-center mt-5">Covid19 Live Tracker</h1>
+        <br><br>
+        <table class= "table table-hover">
+            <thead>
+                <tr>
+                    <th>Total Cases</th>
+                    <th>Total Deaths</th>
+                    <th>Total Recovered</th>
+                    <th>Newly Confirmed Deaths</th>
+                    <th>Newly Confirmed Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="data">
+
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button onClick="refreshData()" class="btn btn-danger btn-block">
+            Refresh Data
+        </button>
+    </div>
+</body>
+<script src="jquery-3.5.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        init()
+
+
+
+        function init(){
+            var url = "https://api.covid19api.com/summary"
+
+            var data = ''
+
+            $.get(url,function(data){
+                console.log(data.Global)
+
+              data = `
+
+              <td>${data.Global.TotalConfirmed}</td>
+              <td>${data.Global.TotalDeaths}</td>
+              <td>${data.Global.TotalRecovered}</td>
+              <td>${data.Global.NewDeaths}</td>
+              <td>${data.Global.NewConfirmed}</td>
+              
+              `
+
+              $("#data").html(data)
+            })
+        }
+
+        function refreshData(){
+            clearData()
+        }
+
+        function clearData(){
+            $("data").empty
+            init()
+        }
+
+    })
+</script>
+</html>
